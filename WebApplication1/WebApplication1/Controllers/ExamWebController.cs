@@ -82,7 +82,7 @@ public class ExamWebController: ControllerBase
     [HttpPost("CreateTransaction")]
     public IActionResult CreateTransaction([FromBody] Transaction transaction)
     {
-        _moneyExchange.CheckTransaction(transaction);
+        _moneyExchange.CreateTransaction(transaction);
         return Ok();
     }
 
@@ -106,4 +106,11 @@ public class ExamWebController: ControllerBase
     {
         return _filterTransactions.ByStatus(status);
     }
+
+    [HttpGet("GetTopClients")]
+    public List<TopCustomerDto> GetTopClients()
+    {
+        return _topClients.FindTop5();
+    }
+    
 }

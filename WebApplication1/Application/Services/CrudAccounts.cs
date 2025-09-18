@@ -47,7 +47,7 @@ public class CrudAccounts:ICrudAccounts
                         Currency = @Currency
                     WHERE Id = @id;
                     """;
-        _connection.ExecuteScalar(sql, account);
+        _connection.Execute(sql, account);
     }
 
     public void Delete(int id)

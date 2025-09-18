@@ -30,9 +30,11 @@ public class MoneyExchange : IMoneyExchange
 
     public void CheckTransaction(Transaction transaction)
     {
-        
-        var have = _connection.ExecuteScalar<decimal>($"Select a.Balance From Accounts a join Customers c on c.Id = a.CustomerId and c.Id={transaction.FromAccountId};");
-        var want = _connection.ExecuteScalar<decimal>($"Select t.Amount from Transactions t where t.FromAccountId = {transaction.FromAccountId};");
+        var sqlhave =
+            "Select a.Balance from Accounts a join Transactions t on a.Id = t.FromAccountId and t.Id=@id";
+        var have = _connection.ExecuteScalar<decimal>(sqlhave,new {id = transaction.Id});
+        var sqlwant = "Select Amount from Transactions where Id = @Id;";
+        var want = _connection.ExecuteScalar<decimal>(sqlwant,new {id = transaction.Id});
         if (have >= want)
         {
             
@@ -44,7 +46,7 @@ public class MoneyExchange : IMoneyExchange
             _connection.Execute(sql, new {want=want ,FromAccountId = transaction.FromAccountId});
             var sql2 = """
                        Update Accounts
-                       set Balance=@want
+                       set Balance=balance + @want
                        where id=@ToAccountId;
                        """;
             _connection.Execute(sql2, new {want=want ,ToAccountId = transaction.ToAccountId});
