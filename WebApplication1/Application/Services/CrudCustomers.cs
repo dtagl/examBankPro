@@ -7,7 +7,7 @@ namespace Application.Services;
 public interface ICrudCustomers
 {
     public void Create(Customer customer);
-    public void Update(Customer customer, int id);
+    public void Update(Customer customer);
     public void Delete(int id);
     public IEnumerable<Customer> SelectAll();
 
@@ -24,26 +24,26 @@ public class CrudCustomers: ICrudCustomers
     public void Create(Customer customer)
     {
         var sql =
-            $"""
+            """
              Insert into Customers(FullName, Phone, Email,RegisteredAt,IsActive) 
              values
-              ('{customer.FullName}','{customer.Phone}','{customer.Email}','{customer.RegistredAt}',{customer.IsActive});
+              (@FullName,@Phone,@Email,@RegistredAt,@IsActive);
              """;
-        _connection.Execute(sql);
+        _connection.Execute(sql, customer);
     }
 
-    public void Update(Customer customer, int id)
+    public void Update(Customer customer)
     {
-        var sql = $"""
+        var sql = """
                   Update Customers 
-                  set FullName = '{customer.FullName}',
-                      Phone = '{customer.Phone}',
-                      Email = '{customer.Email}',
-                      RegisteredAt = '{customer.RegistredAt}',
-                      IsActive = {customer.IsActive}
-                  where Id = {id};
+                  set FullName = @FullName,
+                      Phone = @Phone,
+                      Email = @Email,
+                      RegisteredAt = @RegisteredAt,
+                      IsActive = @IsActive
+                  where Id = @id;
                   """;
-        _connection.Execute(sql);
+        _connection.Execute(sql, customer);
     }
 
     public void Delete(int id)

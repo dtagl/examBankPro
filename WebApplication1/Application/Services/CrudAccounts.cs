@@ -8,7 +8,7 @@ namespace Application.Services;
 public interface ICrudAccounts
 {
     public void Create(Account account);
-    public void Update(Account account,int id);
+    public void Update(Account account);
     public void Delete(int id);
     public IEnumerable<Account> SelectAll();
 
@@ -29,31 +29,31 @@ public class CrudAccounts:ICrudAccounts
     public void Create(Account account)
     {
         var sql =
-            $"""
+            """
              Insert into Accounts(CustomerId, AccountNumber, Balance, Currency) 
              values
-                 ({account.CustomerId},'{account.AccountNumber}',{account.Balance},'{account.Currency}');
+                 (@CustomerId,@AccountNumber,@Balance,@Currency);
              """;
-        _connection.Execute(sql);
+        _connection.Execute(sql,new {CustomerId = account.CustomerId, AccountNumber = account.AccountNumber, Balance = account.Balance, Currency = account.Currency});
     }
 
-    public void Update(Account account, int id)
+    public void Update(Account account)
     {
-        var sql = $"""
+        var sql = """
                     UPDATE Accounts
-                    SET CustomerId = {account.CustomerId},
-                        AccountNumber = '{account.AccountNumber}',
-                        Balance = {account.Balance},
-                        Currency = '{account.Currency}'
-                    WHERE Id = {id};
+                    SET CustomerId = @CustomerId,
+                        AccountNumber = @AccountNumber,
+                        Balance = @Balance,
+                        Currency = @Currency
+                    WHERE Id = @id;
                     """;
-        _connection.ExecuteScalar(sql);
+        _connection.ExecuteScalar(sql, account);
     }
 
     public void Delete(int id)
     {
-        var sql=$"Delete from Accounts where id={id};";
-        _connection.Execute(sql);
+        var sql="Delete from Accounts where id=@id;";
+        _connection.Execute(sql, new  { id = id });
     }
 
     public IEnumerable<Account> SelectAll()

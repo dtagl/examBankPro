@@ -36,33 +36,33 @@ public class MoneyExchange : IMoneyExchange
         if (have >= want)
         {
             
-            var sql = $"""
+            var sql = """
                        Update Accounts 
-                       set Balance=balance-{want}
-                       where id={transaction.FromAccountId};
+                       set Balance=balance-@want
+                       where id=@FromAccountId;
                        """;
-            _connection.Execute(sql);
-            var sql2 = $"""
+            _connection.Execute(sql, new {want=want ,FromAccountId = transaction.FromAccountId});
+            var sql2 = """
                        Update Accounts
-                       set Balance=balance+{want}
-                       where id={transaction.ToAccountId};
+                       set Balance=@want
+                       where id=@ToAccountId;
                        """;
-            _connection.Execute(sql2);
-            var sql3 = $"""
+            _connection.Execute(sql2, new {want=want ,ToAccountId = transaction.ToAccountId});
+            var sql3 = """
                         Update Transactions
                         set Status='Success'
-                        where id={transaction.Id};
+                        where id=@Id;
                         """;
-            _connection.Execute(sql3);
+            _connection.Execute(sql3,  new {id=transaction.Id});
         }
         else
         {
-            var sql = $"""
+            var sql = """
                         Update Transactions
                         set Status='Failed'
-                        where id={transaction.Id};
+                        where id=Id;
                         """;
-            _connection.Execute(sql);
+            _connection.Execute(sql, new {Id=transaction.Id});
         }
     }
     

@@ -38,9 +38,9 @@ public class ExamWebController: ControllerBase
     }
 
     [HttpPut("UpdateAccount")]
-    public IActionResult UpdateAccount([FromBody] Account account,[FromQuery] int id)
+    public IActionResult UpdateAccount([FromBody] Account account)
     {
-        _crudAccounts.Update(account, id);
+        _crudAccounts.Update(account);
         return Ok();
     }
 
@@ -66,9 +66,9 @@ public class ExamWebController: ControllerBase
     }
 
     [HttpPut("UpdateCustomer")]
-    public IActionResult UpdateCustomer([FromBody] Customer customer,[FromQuery] int id)
+    public IActionResult UpdateCustomer([FromBody] Customer customer)
     {
-        _crudCustomers.Update(customer,id);
+        _crudCustomers.Update(customer);
         return Ok();
     }
 

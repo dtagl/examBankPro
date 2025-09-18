@@ -9,7 +9,7 @@ public interface ITopClients
 }
 public class TopCustomerDto
 {
-    public string FullName { get; set; }
+    public string? FullName { get; set; }
     public decimal TotalTurnover { get; set; }
 }
 public class TopClient : ITopClients
