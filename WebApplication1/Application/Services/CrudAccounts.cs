@@ -30,9 +30,9 @@ public class CrudAccounts:ICrudAccounts
     {
         var sql =
             $"""
-             Insert into Accounts(CustomerId, AccountNumber, Balance, Curency) 
+             Insert into Accounts(CustomerId, AccountNumber, Balance, Currency) 
              values
-                 ({account.CustomerId},{account.AccountNumber},{account.Balance},{account.Curency});
+                 ({account.CustomerId},'{account.AccountNumber}',{account.Balance},'{account.Currency}');
              """;
         _connection.Execute(sql);
     }
@@ -40,11 +40,14 @@ public class CrudAccounts:ICrudAccounts
     public void Update(Account account, int id)
     {
         var sql = $"""
-                   Update Accounts(CustomerId, AccountNumber, Balance, Curency)
-                   Set values({account.CustomerId},{account.AccountNumber},{account.Balance},{account.Curency})
-                   where id={account.Id};
-                   """;
-        _connection.Execute(sql);
+                    UPDATE Accounts
+                    SET CustomerId = {account.CustomerId},
+                        AccountNumber = '{account.AccountNumber}',
+                        Balance = {account.Balance},
+                        Currency = '{account.Currency}'
+                    WHERE Id = {id};
+                    """;
+        _connection.ExecuteScalar(sql);
     }
 
     public void Delete(int id)

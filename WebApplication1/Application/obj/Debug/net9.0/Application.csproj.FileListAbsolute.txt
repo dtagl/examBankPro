@@ -13,3 +13,4 @@ C:\Users\denta\Desktop\EXAM1609\WebApplication1\Application\obj\Debug\net9.0\App
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\Application\obj\Debug\net9.0\refint\Application.dll
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\Application\obj\Debug\net9.0\Application.pdb
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\Application\obj\Debug\net9.0\ref\Application.dll
+C:\Users\denta\Desktop\EXAM1609\WebApplication1\Application\obj\Debug\net9.0\Application.sourcelink.json

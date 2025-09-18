@@ -25,9 +25,9 @@ public class CrudCustomers: ICrudCustomers
     {
         var sql =
             $"""
-             Insert into Customers(FullName, Phone, Email,RegisterAt,IsActive) 
+             Insert into Customers(FullName, Phone, Email,RegisteredAt,IsActive) 
              values
-                 ({customer.FullName},{customer.Phone},{customer.Email},{customer.RegistredAt},{customer.IsActive});
+              ('{customer.FullName}','{customer.Phone}','{customer.Email}','{customer.RegistredAt}',{customer.IsActive});
              """;
         _connection.Execute(sql);
     }
@@ -35,9 +35,13 @@ public class CrudCustomers: ICrudCustomers
     public void Update(Customer customer, int id)
     {
         var sql = $"""
-                  Update Customers(FullName, Phone, Email, RegisterAt, IsActive)
-                  Set values({customer.FullName},{customer.Phone},{customer.Email},{customer.RegistredAt},{customer.IsActive})
-                  where id={customer.Id};
+                  Update Customers 
+                  set FullName = '{customer.FullName}',
+                      Phone = '{customer.Phone}',
+                      Email = '{customer.Email}',
+                      RegisteredAt = '{customer.RegistredAt}',
+                      IsActive = {customer.IsActive}
+                  where Id = {id};
                   """;
         _connection.Execute(sql);
     }

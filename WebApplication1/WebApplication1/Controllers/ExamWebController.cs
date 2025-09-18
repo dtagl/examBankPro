@@ -40,7 +40,7 @@ public class ExamWebController: ControllerBase
     [HttpPut("UpdateAccount")]
     public IActionResult UpdateAccount([FromBody] Account account,[FromQuery] int id)
     {
-        _crudAccounts.Update(account,id);
+        _crudAccounts.Update(account, id);
         return Ok();
     }
 

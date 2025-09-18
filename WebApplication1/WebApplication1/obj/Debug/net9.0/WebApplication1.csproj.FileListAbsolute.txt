@@ -41,3 +41,4 @@ C:\Users\denta\Desktop\EXAM1609\WebApplication1\WebApplication1\obj\Debug\net9.0
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.pdb
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.genruntimeconfig.cache
 C:\Users\denta\Desktop\EXAM1609\WebApplication1\WebApplication1\obj\Debug\net9.0\ref\WebApplication1.dll
+C:\Users\denta\Desktop\EXAM1609\WebApplication1\WebApplication1\obj\Debug\net9.0\WebApplication1.sourcelink.json

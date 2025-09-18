@@ -32,37 +32,35 @@ public class MoneyExchange : IMoneyExchange
     {
         
         var have = _connection.ExecuteScalar<decimal>($"Select a.Balance From Accounts a join Customers c on c.Id = a.CustomerId and c.Id={transaction.FromAccountId};");
-        var want = _connection.ExecuteScalar<decimal>($"Select Amount from Transactions t where t.FromAccountId = {transaction.FromAccountId};");
+        var want = _connection.ExecuteScalar<decimal>($"Select t.Amount from Transactions t where t.FromAccountId = {transaction.FromAccountId};");
         if (have >= want)
         {
             
             var sql = $"""
-                       Update Accounts(Amount)
-                       Set values({have-want})
+                       Update Accounts 
+                       set Balance=balance-{want}
                        where id={transaction.FromAccountId};
                        """;
             _connection.Execute(sql);
             var sql2 = $"""
-                       Update Accounts(Amount)
-                       Set values({have+want})
+                       Update Accounts
+                       set Balance=balance+{want}
                        where id={transaction.ToAccountId};
                        """;
             _connection.Execute(sql2);
             var sql3 = $"""
-                        Update Transactions(Status)
-                        Set values({"Success"})
-                        where id="{transaction.Id};";
+                        Update Transactions
+                        set Status='Success'
+                        where id={transaction.Id};
                         """;
             _connection.Execute(sql3);
-            
-
         }
         else
         {
             var sql = $"""
-                        Update Transactions(Status)
-                        Set values({"Failed"})
-                        where id="{transaction.Id};";
+                        Update Transactions
+                        set Status='Failed'
+                        where id={transaction.Id};
                         """;
             _connection.Execute(sql);
         }
